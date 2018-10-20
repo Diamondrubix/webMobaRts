@@ -143,8 +143,11 @@ class Obj {
 					this.color = "green";
 
 					if(this.xVel > 0){
+						things[i].x += this.collision.overlapX;
 						this.x -= this.collision.overlapX
+
 					}else if(this.xVel < 0){
+						things[i].x -= this.collision.overlapX;
 						this.x += this.collision.overlapX
 					}
 					
@@ -165,8 +168,10 @@ class Obj {
 					this.color = "green";
 					
 					if(this.yVel > 0){
+						things[i].y += this.collision.overlapY;
 						this.y -= this.collision.overlapY
 					}else if(this.yVel < 0){
+						things[i].y -= this.collision.overlapY;
 						this.y += this.collision.overlapY
 					}
 
