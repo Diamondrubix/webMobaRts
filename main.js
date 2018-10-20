@@ -12,7 +12,10 @@ function setup(){
 
 	window.addEventListener('keydown',keydown,false);
 	window.addEventListener('keyup',keyup,false);
-	canvas.addEventListener("click", onClick, false);
+	canvas.addEventListener("mousedown", onClick, false);
+	canvas.addEventListener("mouseup", onClickUp, false);
+	canvas.addEventListener("mousemove", onmove, false);
+	canvas.addEventListener("mousewheel", wheelMove, false);
 
 	guy = new Drawable(10,10,30,30,"red");
 	guy.keys = true;
@@ -34,13 +37,10 @@ function keydown(e) {
 	}
 }
 
-function onClick(e) {
-    var clickX;
-    var clickY;
 
-    //console.log(document.body.scrollLeft);
-    //console.log(e.clientX )
-   //console.log(offsetLeft);
+function place(e){
+	var clickX;
+    var clickY;
 
     if (e.pageX || e.pageY) { 
         clickX = e.pageX;
@@ -53,20 +53,125 @@ function onClick(e) {
     clickX -= canvas.offsetLeft;
     clickY -= canvas.offsetTop;
 
-    console.log(clickX);
 
-    var x = clickX;
-    var y = clickY;
+    var x = (clickX/camera.zoom) - (camera.x+camera.xOff);
 
-   // console.log(x);
-   // console.log(y);
+    var y = (clickY/camera.zoom) - (camera.y+camera.yOff);
+
+
 
    gameObjects.push(new Drawable(x, y, 40, 40, "blue"));
+}
 
+
+function mouseChordsToWolrdChords(e){
+	var clickX;
+    var clickY;
+
+    if (e.pageX || e.pageY) { 
+        clickX = e.pageX;
+        clickY = e.pageY;
+    }else { 
+        clickX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft; 
+        clickY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop; 
+    } 
+
+    clickX -= canvas.offsetLeft;
+    clickY -= canvas.offsetTop;
+
+    var x = (clickX/camera.zoom) - (camera.x+camera.xOff);
+
+    var y = (clickY/camera.zoom) - (camera.y+camera.yOff);
+
+
+    return {x: x, y: y}
+   //gameObjects.push(new Drawable(x, y, 40, 40, "blue"));
+} 
+
+function onClick(e) {
+
+	chords = mouseChordsToWolrdChords(e);
+
+	if(e.button == 0){
+		mouseDown = true;
+		
+		oldMouseX = chords.x;
+		oldMouseY = chords.y;
+	}else if(e.button == 2){
+		f = new Drawable(chords.x, chords.y, 40, 40, "blue");
+		f.moveable = true;
+		gameObjects.push(f);
+	}
 
 }
 
+
+
+function onClickUp(e) {
+
+
+	
+	mouseDown = false;
+
+    
+}
+
+function wheelMove(e){
+	e.preventDefault();
+	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+	scrollSpeed = 0.2
+
+	if(delta>0){
+
+		if(camera.zoom-scrollSpeed < 0.2){
+			return;
+		}
+
+		camera.zoom -= scrollSpeed;
+
+
+
+	}else if(delta < 0){
+
+		if(camera.zoom-scrollSpeed > 9){
+			return;
+		}
+
+		camera.zoom += scrollSpeed;	
+	}
+
+	
+
+	camera.x = centerX/camera.zoom;
+	camera.y = centerY/camera.zoom;
+
+
+
+	console.log(camera.zoom);
+}
+
+
+function onmove(e){
+	if(mouseDown){
+		//console.log("fewfew")
+		chords = mouseChordsToWolrdChords(e);
+		mx = chords.x;
+		my = chords.y;
+
+		camera.xOff += mx - oldMouseX;
+		camera.yOff += my - oldMouseY;
+
+	}
+}
+
+
 function draw(){
+
+	cx.beginPath();
+  	cx.fillStyle = "green";
+  	cx.fillRect(0,0,canvas.width,canvas.height);
+  	cx.fill();
+
 	for(var i=0; i < gameObjects.length; i++){
 		gameObjects[i].tick();
 		gameObjects[i].paint();
