@@ -12,7 +12,9 @@ function setup(){
 
 	window.addEventListener('keydown',keydown,false);
 	window.addEventListener('keyup',keyup,false);
-	canvas.addEventListener("click", onClick, false);
+	canvas.addEventListener("mousedown", onClick, false);
+	canvas.addEventListener("mouseup", onClickUp, false);
+	canvas.addEventListener("mousemove", onmove, false);
 
 	guy = new Drawable(10,10,30,30,"red");
 	guy.keys = true;
@@ -34,13 +36,10 @@ function keydown(e) {
 	}
 }
 
-function onClick(e) {
-    var clickX;
-    var clickY;
 
-    //console.log(document.body.scrollLeft);
-    //console.log(e.clientX )
-   //console.log(offsetLeft);
+function place(e){
+	var clickX;
+    var clickY;
 
     if (e.pageX || e.pageY) { 
         clickX = e.pageX;
@@ -53,22 +52,81 @@ function onClick(e) {
     clickX -= canvas.offsetLeft;
     clickY -= canvas.offsetTop;
 
-    console.log(clickX);
 
-    //x = this.x+camera.x+camera.xOff)*camera.zoom
     var x = (clickX/camera.zoom) - (camera.x+camera.xOff);
-    //var x = (((clickX-camera.x)-camera.xOff) / camera.zoom ) ;
 
     var y = (clickY/camera.zoom) - (camera.y+camera.yOff);
-    //var y = (((clickY-camera.y)-camera.yOff) /  camera.zoom ) ;
 
 
-   // (this.x+camera.x+camera.xOff)*camera.zoom
 
    gameObjects.push(new Drawable(x, y, 40, 40, "blue"));
+}
 
+
+function mouseChordsToWolrdChords(e){
+	var clickX;
+    var clickY;
+
+    if (e.pageX || e.pageY) { 
+        clickX = e.pageX;
+        clickY = e.pageY;
+    }else { 
+        clickX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft; 
+        clickY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop; 
+    } 
+
+    clickX -= canvas.offsetLeft;
+    clickY -= canvas.offsetTop;
+
+    var x = (clickX/camera.zoom) - (camera.x+camera.xOff);
+
+    var y = (clickY/camera.zoom) - (camera.y+camera.yOff);
+
+
+    return {x: x, y: y}
+   //gameObjects.push(new Drawable(x, y, 40, 40, "blue"));
+} 
+
+function onClick(e) {
+
+	chords = mouseChordsToWolrdChords(e);
+
+	if(e.button == 0){
+		mouseDown = true;
+		
+		oldMouseX = chords.x;
+		oldMouseY = chords.y;
+	}else if(e.button == 2){
+		gameObjects.push(new Drawable(chords.x, chords.y, 40, 40, "blue"));
+	}
 
 }
+
+
+
+function onClickUp(e) {
+
+
+	
+	mouseDown = false;
+
+    
+}
+
+
+function onmove(e){
+	if(mouseDown){
+		//console.log("fewfew")
+		chords = mouseChordsToWolrdChords(e);
+		mx = chords.x;
+		my = chords.y;
+
+		camera.xOff += mx - oldMouseX;
+		camera.yOff += my - oldMouseY;
+
+	}
+}
+
 
 function draw(){
 

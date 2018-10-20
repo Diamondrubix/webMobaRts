@@ -20,3 +20,8 @@ camera = {
 	xOff : 0,
 	yOff : 0
 };
+
+
+mouseDown = false;
+oldMouseX = 0;
+oldMouseY = 0;
