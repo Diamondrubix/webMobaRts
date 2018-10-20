@@ -12,7 +12,7 @@ class Drawable {
 	  	this.xVel = 0;
 	  	this.yVel = 0;
 
-	  	this.speed = 1;
+	  	this.speed = 2;
 
 	  	this.moveable = false;
 	}
@@ -46,7 +46,6 @@ class Drawable {
 			if(gameObjects[i]!=this){
 				var collision = this.collide(gameObjects[i]);
 				if(collision != false){
-
 					callback(gameObjects[i], collision);
 				}
 			}
@@ -55,7 +54,6 @@ class Drawable {
 
 	handleKeys(){
 
-  	
 	  	if(keys.indexOf("d")!=-1){
 		  	this.xVel += this.speed;
 		}
@@ -72,6 +70,63 @@ class Drawable {
 		if(keys.indexOf("s")!=-1){
 		  	this.yVel += this.speed;
 		}
+
+
+
+		if(keys.indexOf("ArrowRight")!=-1){
+		  	camera.xOff -= this.speed;
+		}
+
+		if(keys.indexOf("ArrowLeft")!=-1){
+		  	camera.xOff += this.speed;
+		}
+
+
+		if(keys.indexOf("ArrowDown")!=-1){
+		  	camera.yOff -= this.speed;
+		}
+
+		if(keys.indexOf("ArrowUp")!=-1){
+		  	camera.yOff += this.speed;
+		}
+
+
+		if(keys.indexOf("z")!=-1){
+		  	camera.zoom += 0.05;
+
+		  	camera.x = centerX/camera.zoom;
+		  	camera.y = centerY/camera.zoom;
+
+/*
+		  	var ncenterX = (centerX+camera.x)*camera.zoom;
+		  	var ncenterY = (centerY+camera.y)*camera.zoom;
+
+			camera.x += centerX-ncenterX;
+			camera.y += centerY-ncenterY;
+*/
+			//console.log(camera.zoom);
+
+		}
+
+
+		if(keys.indexOf("x")!=-1){
+		  	camera.zoom -= 0.05;
+
+		  	camera.x = centerX/camera.zoom;
+		  	camera.y = centerY/camera.zoom;
+
+/*
+		  	var ncenterX = (centerX+camera.x)*camera.zoom;
+		  	var ncenterY = (centerY+camera.y)*camera.zoom;
+
+			camera.x += centerX-ncenterX;
+			camera.y += centerY-ncenterY;
+*/
+
+
+			//console.log(camera.zoom);
+		}
+
 	}
 
 	tick(){
@@ -79,8 +134,6 @@ class Drawable {
   		if(this.keys){
 
   			this.handleKeys();
-
-			//this.color = "red";
 
 			this.x += this.xVel;
 
@@ -145,7 +198,7 @@ class Drawable {
 
   	cx.beginPath();
   	cx.strokeStyle = this.color;
-  	cx.rect(this.x,this.y,this.width,this.height);
+  	cx.rect((this.x+camera.x+camera.xOff)*camera.zoom,(this.y+camera.y+camera.yOff)*camera.zoom,this.width*camera.zoom,this.height*camera.zoom);
   	cx.stroke();
 
 	

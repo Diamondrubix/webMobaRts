@@ -55,11 +55,15 @@ function onClick(e) {
 
     console.log(clickX);
 
-    var x = clickX;
-    var y = clickY;
+    //x = this.x+camera.x+camera.xOff)*camera.zoom
+    var x = (clickX/camera.zoom) - (camera.x+camera.xOff);
+    //var x = (((clickX-camera.x)-camera.xOff) / camera.zoom ) ;
 
-   // console.log(x);
-   // console.log(y);
+    var y = (clickY/camera.zoom) - (camera.y+camera.yOff);
+    //var y = (((clickY-camera.y)-camera.yOff) /  camera.zoom ) ;
+
+
+   // (this.x+camera.x+camera.xOff)*camera.zoom
 
    gameObjects.push(new Drawable(x, y, 40, 40, "blue"));
 
@@ -67,6 +71,12 @@ function onClick(e) {
 }
 
 function draw(){
+
+	cx.beginPath();
+  	cx.fillStyle = "green";
+  	cx.fillRect(0,0,canvas.width,canvas.height);
+  	cx.fill();
+
 	for(var i=0; i < gameObjects.length; i++){
 		gameObjects[i].tick();
 		gameObjects[i].paint();
