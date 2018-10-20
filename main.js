@@ -15,6 +15,7 @@ function setup(){
 	canvas.addEventListener("mousedown", onClick, false);
 	canvas.addEventListener("mouseup", onClickUp, false);
 	canvas.addEventListener("mousemove", onmove, false);
+	canvas.addEventListener("mousewheel", wheelMove, false);
 
 	guy = new Drawable(10,10,30,30,"red");
 	guy.keys = true;
@@ -111,6 +112,40 @@ function onClickUp(e) {
 	mouseDown = false;
 
     
+}
+
+function wheelMove(e){
+	e.preventDefault();
+	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+	scrollSpeed = 0.2
+
+	if(delta>0){
+
+		if(camera.zoom-scrollSpeed < 0.2){
+			return;
+		}
+
+		camera.zoom -= scrollSpeed;
+
+
+
+	}else if(delta < 0){
+
+		if(camera.zoom-scrollSpeed > 9){
+			return;
+		}
+
+		camera.zoom += scrollSpeed;	
+	}
+
+	
+
+	camera.x = centerX/camera.zoom;
+	camera.y = centerY/camera.zoom;
+
+
+
+	console.log(camera.zoom);
 }
 
 

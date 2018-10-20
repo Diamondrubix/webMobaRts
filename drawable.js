@@ -97,15 +97,6 @@ class Drawable {
 		  	camera.x = centerX/camera.zoom;
 		  	camera.y = centerY/camera.zoom;
 
-/*
-		  	var ncenterX = (centerX+camera.x)*camera.zoom;
-		  	var ncenterY = (centerY+camera.y)*camera.zoom;
-
-			camera.x += centerX-ncenterX;
-			camera.y += centerY-ncenterY;
-*/
-			//console.log(camera.zoom);
-
 		}
 
 
@@ -115,16 +106,6 @@ class Drawable {
 		  	camera.x = centerX/camera.zoom;
 		  	camera.y = centerY/camera.zoom;
 
-/*
-		  	var ncenterX = (centerX+camera.x)*camera.zoom;
-		  	var ncenterY = (centerY+camera.y)*camera.zoom;
-
-			camera.x += centerX-ncenterX;
-			camera.y += centerY-ncenterY;
-*/
-
-
-			//console.log(camera.zoom);
 		}
 
 	}
