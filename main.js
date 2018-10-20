@@ -98,7 +98,9 @@ function onClick(e) {
 		oldMouseX = chords.x;
 		oldMouseY = chords.y;
 	}else if(e.button == 2){
-		gameObjects.push(new Drawable(chords.x, chords.y, 40, 40, "blue"));
+		f = new Drawable(chords.x, chords.y, 40, 40, "blue");
+		f.moveable = true;
+		gameObjects.push(f);
 	}
 
 }

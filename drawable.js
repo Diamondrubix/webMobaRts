@@ -115,35 +115,38 @@ class Drawable {
   		if(this.keys){
 
   			this.handleKeys();
-
-			this.x += this.xVel;
-
-			this.onCollision((obj, collision)=>{
-
-				if(this.xVel > 0){
-					if(obj.moveable)obj.x += collision.overlapX;
-					this.x -= collision.overlapX
-
-				}else if(this.xVel < 0){
-					if(obj.moveable)obj.x -= collision.overlapX;
-					this.x += collision.overlapX
-				}
-			});
-
-
-			this.y += this.yVel;
-
-			this.onCollision((obj, collision) => {
-				if(this.yVel > 0){
-					if(obj.moveable)things[i].y += collision.overlapY;
-					this.y -= collision.overlapY
-				}else if(this.yVel < 0){
-					if(obj.moveable)things[i].y -= collision.overlapY;
-					this.y += collision.overlapY
-				}
-
-			});
 		}
+
+
+		this.x += this.xVel;
+
+		//this.oldColor = this.color;
+
+		this.onCollision((obj, collision)=>{
+			if(this.xVel > 0){
+				if(obj.moveable)obj.xVel = collision.overlapX;
+				this.x -= collision.overlapX
+
+			}else if(this.xVel < 0){
+				if(obj.moveable)obj.xVel = -collision.overlapX;
+				this.x += collision.overlapX
+			}
+		});
+
+
+		this.y += this.yVel;
+
+		this.onCollision((obj, collision) => {
+			if(this.yVel > 0){
+				if(obj.moveable)obj.yVel = collision.overlapY;
+				this.y -= collision.overlapY
+			}else if(this.yVel < 0){
+				if(obj.moveable)obj.yVel = -collision.overlapY;
+				this.y += collision.overlapY
+			}
+
+		});
+		
 
 
   	
