@@ -130,79 +130,52 @@ class Obj {
 
 		this.color = "red";
 
-		this.x += this.xVel;
-  		this.y += this.yVel;
 
-  		var didCol = false
+
+		
+		this.x += this.xVel;
 
 		for(var i=0; i<things.length;i++){
 			if(things[i]!=this){
 				this.collision = this.collide(things[i]);
 				if(this.collision != false){
-					didCol = true;
-					this.color = "green";
-					
-
-					
-						if(this.locked!="y"){
-							if(this.xVel > 0){
-								this.x -= this.collision.overlapX;
-								this.xVel = 0;
-								this.locked = "x";
-					
-							}
-
-							if(this.xVel < 0 ){
-								this.x += this.collision.overlapX;
-								this.xVel = 0;
-								this.locked = "x";
-					
-							}
-						}
-
-
-						if(this.locked!="x"){
-							if(this.yVel > 0 ){
-								this.y -= this.collision.overlapY;
-								this.yVel = 0;
-								this.locked = "y";
-							}
-
-							
-							if(this.yVel < 0 ){
-								this.y += this.collision.overlapY;
-								this.yVel = 0;
-								this.locked = "y";
-
-							}
-						}	
 		
-					//this.xVel = 0;
-					//this.yVel = 0;
+					this.color = "green";
 
-					//this.x -= this.collision.overlapX;
-					//this.y -= this.collision.overlapY;
+					if(this.xVel > 0){
+						this.x -= this.collision.overlapX
+					}else if(this.xVel < 0){
+						this.x += this.collision.overlapX
+					}
 					
-					/*
-					if(this.xVel > 0 || this.xVel < 0){
-						this.x -= this.collision.overlapX;
-						this.xVel = 0;
-						this.locked = "x";
-					}*/
-
-
-					//cx.beginPath();
-				  	//cx.strokeStyle = "orange";
-				  	//cx.rect(this.collision.x,this.collision.y,this.collision.overlapX,this.collision.overlapY);
-				  	//cx.fill();
 
 				}
 			}
 		}
-		
-		if(!didCol){
-			this.locked="none";
+
+
+		this.y += this.yVel;
+
+
+		for(var i=0; i<things.length;i++){
+			if(things[i]!=this){
+				this.collision = this.collide(things[i]);
+				if(this.collision != false){
+					
+					this.color = "green";
+					
+					if(this.yVel > 0){
+						this.y -= this.collision.overlapY
+					}else if(this.yVel < 0){
+						this.y += this.collision.overlapY
+					}
+
+
+				}
+			}
 		}
+
+
 
 	}
 
