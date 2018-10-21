@@ -209,7 +209,7 @@ function draw(){
 function gameLoop() {
     window.requestAnimationFrame(gameLoop);
 
-
+    console.log(gameObjects.length);
 
     currentTime = (new Date()).getTime();
     delta = (currentTime - lastTime) / 1000;
