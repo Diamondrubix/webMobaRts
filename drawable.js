@@ -3,6 +3,8 @@ class Drawable {
 	constructor(x,y,width,height,color) {
 		this.x = x; 
 	  	this.y = y;
+	  	this.oldx = x;
+	  	this.oldy = y;
 
 	  	this.width = width;
 	  	this.height = height;
@@ -173,8 +175,13 @@ class Drawable {
 	  		this.yVel = 10;
 	  	}else if(this.yVel < -10 ){
 	  		this.yVel = -10;
-	  	}  	
+	  	}
 
+	  	if(this.x!=this.oldx||this.y!=this.oldy){
+	  		this.oldx = this.x;
+	  		this.oldy = this.y;
+	  		console.log("moved");
+		}
 
   }
 

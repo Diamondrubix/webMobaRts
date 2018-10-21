@@ -1,9 +1,6 @@
 
 
 
-import "/socket.io/socket.io.js"
-import "https://code.jquery.com/jquery-1.11.1.js"
-
 
 class network {
 
