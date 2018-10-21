@@ -6,7 +6,8 @@ var path = require('path');
 //var app = require('express')();
 
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+//var io = require('socket.io')(http);
+var io = require('socket.io').listen(http);
 
 /*
 app.get('/', function(req, res){
@@ -19,19 +20,37 @@ app.get('/', function(req, res){
 
 app.use(express.static(__dirname + '/'));
 
+players = 0;
 
-
+/*
 io.on('connection', function(socket){
+    players++;
+    io.emit("startup", players);
     console.log('a user connected');
-    socket.on('gameroom1', function(msg){
+
+    socket.on('gameroom', function(msg){
         //console.log('message: ' + msg.x);
+
         io.emit("gameroom1", msg);
     });
     socket.on('disconnect', function(){
         console.log('user disconnected');
     });
 });
+*/
+io.on('connection', function(socket){
 
+    console.log('a user connected');
+
+    socket.on('gameroom1', function(msg){
+        //console.log('message: ' + msg.x);
+
+        io.emit("gameroom1", msg);
+    });
+    socket.on('disconnect', function(){
+        console.log('user disconnected');
+    });
+});
 
 
 http.listen(3001, function(){

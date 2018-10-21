@@ -24,6 +24,7 @@ function setup(){
 	net.recive(function(msg){
 		//console.log(msg);
 		if(guy.id !== msg.id) {
+
             //console.log(JSON.stringify(msg));
             var exists = false;
             for (var i = 0; i < gameObjects.length; i++) {
@@ -43,7 +44,9 @@ function setup(){
                     gameObjects.push(n);
                 }
             }
-        }
+        }else{
+            console.log("THIS should be printed");
+		}
 	});
 
 
@@ -206,10 +209,10 @@ function draw(){
 }
 
 
+
 function gameLoop() {
     window.requestAnimationFrame(gameLoop);
 
-    console.log(gameObjects.length);
 
     currentTime = (new Date()).getTime();
     delta = (currentTime - lastTime) / 1000;
