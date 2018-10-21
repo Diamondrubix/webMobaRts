@@ -15,8 +15,7 @@ class network {
         //this.socket.json.send(this.gameroom, msg);
     }
 
-    recive(callback) {
-        var message;
+    receive(callback) {
         this.socket.on(this.gameroom, function (msg) {
             //console.log("test "+msg);
             callback(msg);

@@ -21,7 +21,26 @@ function setup(){
 	guy.keys = true;
 	gameObjects.push(guy);
 
-	net.recive(function(msg){
+
+	net.receive(function(msg) {
+
+        if (msg.id != guy.id) {
+            for (var i = 0; i < gameObjects.length; i++) {
+                var obj = gameObjects[i];
+                if (obj.id == msg.id) {
+                    gameObjects[i].x = msg.x;
+                    gameObjects[i].y = msg.y;
+                    return;
+                }
+            }
+            x = new Drawable(msg.x, msg.y, msg.width, msg.height, msg.color);
+            x.id = msg.id;
+            x.moveable = msg.moveable;
+            gameObjects.push(x)
+        }
+    });
+	/*
+	.recive(function(msg){
 		//console.log(msg);
 		if(guy.id !== msg.id) {
 
@@ -46,6 +65,7 @@ function setup(){
             }
         }
 	});
+	//*/
 
 
 }
@@ -127,7 +147,7 @@ function onClick(e) {
 	}else if(e.button == 2){
 		f = new Drawable(chords.x, chords.y, 40, 40, "blue");
 		f.moveable = true;
-		net.send(f);
+		//net.send(f);
 		gameObjects.push(f);
 	}
 
