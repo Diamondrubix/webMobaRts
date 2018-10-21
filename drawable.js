@@ -133,6 +133,7 @@ class Drawable {
 
 		//this.oldColor = this.color;
 
+		
 		this.onCollision((obj, collision)=>{
 			if(this.xVel > 0){
 				if(obj.moveable)obj.xVel = collision.overlapX;
