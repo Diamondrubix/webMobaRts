@@ -21,27 +21,28 @@ function setup(){
 	guy.keys = true;
 	gameObjects.push(guy);
 
-	changes = net.recive(function(msg){
-		//console.log(JSON.stringify(msg));
-		var exists = false;
-        for(var i =0; i< gameObjects.length;i++){
-            if(gameObjects[i].id === msg.id){
-                gameObjects[i].x = msg.x;
-                gameObjects[i].y = msg.y;
-                exists = true;
-                break;
+	net.recive(function(msg){
+		if(guy.id !== msg.id) {
+            //console.log(JSON.stringify(msg));
+            var exists = false;
+            for (var i = 0; i < gameObjects.length; i++) {
+                if (gameObjects[i].id === msg.id) {
+                    gameObjects[i].x = msg.x;
+                    gameObjects[i].y = msg.y;
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                if (msg.class === "drawable") {
+                    n = new Drawable(msg.x, msg.y, msg.width, msg.height, msg.color);
+                    n.id = msg.id;
+                    n.moveable = msg.moveable;
+                    gameObjects.push(n);
+                }
             }
         }
-
-        if(!exists){
-            if(msg.class === "drawable"){
-            	n = new Drawable(msg.x,msg.y,msg.width,msg.height,msg.color);
-            	n.id = msg.id;
-            	n.moveable = msg.moveable;
-                gameObjects.push(n);
-            }
-		}
-
 	});
 
 
