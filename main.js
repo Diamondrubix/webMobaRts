@@ -22,6 +22,7 @@ function setup(){
 	gameObjects.push(guy);
 
 	net.recive(function(msg){
+		//console.log(msg);
 		if(guy.id !== msg.id) {
             //console.log(JSON.stringify(msg));
             var exists = false;

@@ -25,6 +25,7 @@ class Drawable {
 
 
     collide(r){
+
 		var happend = (this.x < r.x + r.width && this.x + this.width > r.x && this.y < r.y + r.height && this.y + this.height > r.y);
 
 		var a = this;
@@ -37,6 +38,7 @@ class Drawable {
 
 
 		if(happend){
+			//console.log("collided");
 			 return {
 				overlapX : num1 - x,
 				overlapY: num2 - y,
