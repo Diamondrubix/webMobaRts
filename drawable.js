@@ -186,15 +186,17 @@ class Drawable {
 	  	if(this.x!=this.oldx||this.y!=this.oldy){
 	  		this.oldx = this.x;
 	  		this.oldy = this.y;
-	  		/*
+
+			/*
 	  		net.send({
 				x: this.x,
-				y: this.y
+				y: this.y,
+				id: this.id,
+				class: this.class
 			});
 			*/
+
 		}
-        net.send(this);
-	  	console.log("Etst");
 
 
   }
