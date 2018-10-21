@@ -1,3 +1,10 @@
+
+/*
+if (typeof module !== 'undefined') {
+	var Drawable = require('./Drawable.js');
+}*/
+
+
 class Player extends Drawable{
 
 
@@ -5,10 +12,12 @@ class Player extends Drawable{
 
 		super(x,y,30,30,"red")
 
-	  	this.xVel = 0;
-	  	this.yVel = 0;
-
+	  	this.classType = "Player";
 	  	this.speed = 2;
+
+
+	  	this.oldX = x;
+	  	this.oldY = y;
 	  	
 	}
 
@@ -53,7 +62,12 @@ class Player extends Drawable{
 		
 		this.onCollision((obj, collision)=>{
 			if(this.xVel > 0){
-				//if(obj.moveable)obj.xVel = collision.overlapX;
+
+
+				if(obj.moveable && typeof module !== 'undefined'){
+					obj.xVel = collision.overlapX;
+				}
+
 				this.x -= collision.overlapX
 
 			}else if(this.xVel < 0){
@@ -172,11 +186,28 @@ class Player extends Drawable{
 
 	tick(){
 
+
+	  	this.oldX = this.x;
+	  	this.oldY = this.y;
+
 		this.handleKeys();
 		this.handleCollision();
 		this.handleVelocity();
+
+
+	  	if( (this.oldX != this.x || this.oldY != this.y) && typeof module == 'undefined'){	
+	  		net.send(this);
+	  	}
+	  	
+
 	}
 
 
 }
+
+
+if (typeof module !== 'undefined') {
+	module.exports = Player;
+}
+
 

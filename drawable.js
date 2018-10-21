@@ -1,3 +1,5 @@
+
+
 class Drawable {
 
 	constructor(x,y,width,height,color) {
@@ -12,9 +14,11 @@ class Drawable {
 	  	this.xVel = 0;
 	  	this.yVel = 0;
 
-	  	this.moveable = false;
+	  	this.moveable = true;
 
 	  	this.id = Math.random();
+
+	  	this.classType = "Drawable";
 
 	}
 

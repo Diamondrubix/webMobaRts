@@ -23,7 +23,6 @@ function setup(){
 
 
 	net.receive(function(msg) {
-		console.log(msg);
         if (msg.id != guy.id) {
             for (var i = 0; i < gameObjects.length; i++) {
                 var obj = gameObjects[i];

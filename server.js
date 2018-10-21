@@ -1,9 +1,10 @@
 
-var express = require('express');
-var app = express();
-var path = require('path');
+express = require('express');
+app = express();
+path = require('path');
 
-var Drawable = require('./Drawable.js');
+Drawable = require('./Drawable.js');
+Player = require('./Player.js');
 //var app = require('express')();
 
 var http = require('http').Server(app);
@@ -20,7 +21,13 @@ app.get('/', function(req, res){
 app.use(express.static(__dirname + '/'));
 
 
-
+function handleCollisions(){
+    for(var i=0; i<gameObjects[i].length; i++){
+        if(gameObjects[i].classType == "Player"){
+            console.log("fewfew");
+        }
+    } 
+}
 
 io.on('connection', function(socket){
 
@@ -33,14 +40,26 @@ io.on('connection', function(socket){
                 gameObjects[i].x = msg.x;
                 gameObjects[i].y = msg.y;
 
+
+                handleCollisions();
+                io.emit("gameroom1", msg);
+
                 return;
             }
         }
-        x = new Drawable(msg.x, msg.y, msg.width, msg.height, msg.color);
+        x = null; 
+
+        if(msg.classType == "Drawable"){
+            x = new Drawable(msg.x, msg.y, msg.width, msg.height, msg.color);
+        }else if (msg.classType == "Player"){
+            x = new Player(msg.x, msg.y);
+        }
+
         x.id = msg.id;
         x.moveable = msg.moveable;
-        gameObjects.push(x)
+        gameObjects.push(x);
         
+        handleCollisions();
         io.emit("gameroom1", msg);
     });
     socket.on('disconnect', function(){
