@@ -44,9 +44,7 @@ function setup(){
                     gameObjects.push(n);
                 }
             }
-        }else{
-            console.log("THIS should be printed");
-		}
+        }
 	});
 
 

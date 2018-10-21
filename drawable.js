@@ -186,7 +186,6 @@ class Drawable {
 	  	if(this.x!=this.oldx||this.y!=this.oldy){
 	  		this.oldx = this.x;
 	  		this.oldy = this.y;
-	  		net.send(this);
 	  		/*
 	  		net.send({
 				x: this.x,
@@ -194,6 +193,8 @@ class Drawable {
 			});
 			*/
 		}
+        net.send(this);
+	  	console.log("Etst");
 
 
   }
