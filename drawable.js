@@ -5,6 +5,8 @@ class Drawable {
 	  	this.y = y;
 	  	this.oldx = x;
 	  	this.oldy = y;
+	  	this.id = Math.random();
+	  	this.class = "drawable"
 
 	  	this.width = width;
 	  	this.height = height;
@@ -17,10 +19,12 @@ class Drawable {
 	  	this.speed = 2;
 
 	  	this.moveable = false;
+
 	}
 
 
-	collide(r){
+
+    collide(r){
 		var happend = (this.x < r.x + r.width && this.x + this.width > r.x && this.y < r.y + r.height && this.y + this.height > r.y);
 
 		var a = this;
@@ -180,8 +184,15 @@ class Drawable {
 	  	if(this.x!=this.oldx||this.y!=this.oldy){
 	  		this.oldx = this.x;
 	  		this.oldy = this.y;
-	  		console.log("moved");
+	  		net.send(this);
+	  		/*
+	  		net.send({
+				x: this.x,
+				y: this.y
+			});
+			*/
 		}
+
 
   }
 

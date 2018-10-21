@@ -9,16 +9,19 @@ class network {
         this.socket = io();
     }
 
-    send() {
-        socket.emit(gameroom, $('#m').val());
+    send(msg) {
+        this.socket.emit(this.gameroom, msg);
+        //this.socket.send(this.gameroom, msg);
+        //this.socket.json.send(this.gameroom, msg);
     }
 
-    recive() {
+    recive(callback) {
         var message;
-        socket.on(gameroom, function (msg) {
-             message = msg;
+        this.socket.on(this.gameroom, function (msg) {
+            //console.log("test "+msg);
+            callback(msg);
         });
-        return message;
+
     }
 
 }

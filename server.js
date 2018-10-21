@@ -24,7 +24,7 @@ app.use(express.static(__dirname + '/'));
 io.on('connection', function(socket){
     console.log('a user connected');
     socket.on('gameroom1', function(msg){
-        console.log('message: ' + msg);
+        //console.log('message: ' + msg.x);
         io.emit("gameroom1", msg);
     });
     socket.on('disconnect', function(){

@@ -21,6 +21,30 @@ function setup(){
 	guy.keys = true;
 	gameObjects.push(guy);
 
+	changes = net.recive(function(msg){
+		//console.log(JSON.stringify(msg));
+		var exists = false;
+        for(var i =0; i< gameObjects.length;i++){
+            if(gameObjects[i].id === msg.id){
+                gameObjects[i].x = msg.x;
+                gameObjects[i].y = msg.y;
+                exists = true;
+                break;
+            }
+        }
+
+        if(!exists){
+            if(msg.class === "drawable"){
+            	n = new Drawable(msg.x,msg.y,msg.width,msg.height,msg.color);
+            	n.id = msg.id;
+            	n.moveable = msg.moveable;
+                gameObjects.push(n);
+            }
+		}
+
+	});
+
+
 }
 
 function keyup(e) {
@@ -100,6 +124,7 @@ function onClick(e) {
 	}else if(e.button == 2){
 		f = new Drawable(chords.x, chords.y, 40, 40, "blue");
 		f.moveable = true;
+		net.send(f);
 		gameObjects.push(f);
 	}
 
@@ -181,6 +206,8 @@ function draw(){
 
 function gameLoop() {
     window.requestAnimationFrame(gameLoop);
+
+
 
     currentTime = (new Date()).getTime();
     delta = (currentTime - lastTime) / 1000;
