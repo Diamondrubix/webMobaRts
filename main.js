@@ -203,7 +203,6 @@ function draw(){
 	for(var i=0; i < gameObjects.length; i++){
 		gameObjects[i].tick();
 		gameObjects[i].paint();
-        net.send(gameObjects[i]);
 	}
 }
 
