@@ -65,13 +65,19 @@ class Player extends Drawable{
 
 
 				if(obj.moveable && typeof module !== 'undefined'){
-					obj.xVel = collision.overlapX;
+					obj.x += collision.overlapX;
+					io.emit("gameroom1", obj);
 				}
 
 				this.x -= collision.overlapX
 
 			}else if(this.xVel < 0){
-				//if(obj.moveable)obj.xVel = -collision.overlapX;
+				
+				if(obj.moveable && typeof module !== 'undefined'){
+					obj.x -= collision.overlapX;
+					io.emit("gameroom1", obj);
+				}
+
 				this.x += collision.overlapX
 			}
 		});
@@ -81,10 +87,16 @@ class Player extends Drawable{
 
 		this.onCollision((obj, collision) => {
 			if(this.yVel > 0){
-				//if(obj.moveable)obj.yVel = collision.overlapY;
+				if(obj.moveable && typeof module !== 'undefined'){
+					obj.y += collision.overlapY;
+					io.emit("gameroom1", obj);
+				}
 				this.y -= collision.overlapY
 			}else if(this.yVel < 0){
-				//if(obj.moveable)obj.yVel = -collision.overlapY;
+				if(obj.moveable && typeof module !== 'undefined'){
+					obj.y -= collision.overlapY;
+					io.emit("gameroom1", obj);
+				}
 				this.y += collision.overlapY
 			}
 

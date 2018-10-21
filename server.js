@@ -9,7 +9,7 @@ Player = require('./Player.js');
 
 var http = require('http').Server(app);
 //var io = require('socket.io')(http);
-var io = require('socket.io').listen(http);
+io = require('socket.io').listen(http);
 
 gameObjects = [];
 
@@ -22,9 +22,10 @@ app.use(express.static(__dirname + '/'));
 
 
 function handleCollisions(){
-    for(var i=0; i<gameObjects[i].length; i++){
-        if(gameObjects[i].classType == "Player"){
-            console.log("fewfew");
+    for(var i=0; i<gameObjects.length; i++){
+        if(gameObjects[i].classType === "Player"){
+            //console.log(gameObjects[i].xVel);
+            gameObjects[i].handleCollision();
         }
     } 
 }
@@ -39,7 +40,8 @@ io.on('connection', function(socket){
             if (obj.id == msg.id) {
                 gameObjects[i].x = msg.x;
                 gameObjects[i].y = msg.y;
-
+                gameObjects[i].xVel = msg.xVel;
+                gameObjects[i].yVel = msg.yVel;
 
                 handleCollisions();
                 io.emit("gameroom1", msg);
@@ -47,7 +49,12 @@ io.on('connection', function(socket){
                 return;
             }
         }
+
+
         x = null; 
+
+        //console.log(msg);
+        //console.log(msg.classType);
 
         if(msg.classType == "Drawable"){
             x = new Drawable(msg.x, msg.y, msg.width, msg.height, msg.color);
@@ -72,6 +79,6 @@ io.on('connection', function(socket){
 
 
 
-http.listen(3001, function(){
+http.listen(80, function(){
     console.log('listening on *:3001');
 });
