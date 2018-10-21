@@ -12,7 +12,7 @@ var http = require('http').Server(app);
 io = require('socket.io').listen(http);
 
 gameObjects = [];
-
+keys = [];
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/game.html');
@@ -23,12 +23,21 @@ app.use(express.static(__dirname + '/'));
 
 function handleCollisions(){
     for(var i=0; i<gameObjects.length; i++){
-        if(gameObjects[i].classType === "Player"){
+        //if(gameObjects[i].classType === "Player"){
             //console.log(gameObjects[i].xVel);
-            gameObjects[i].handleCollision();
-        }
+             gameObjects[i].tick();
+        //}
     } 
 }
+
+
+
+      setInterval(function() {
+            
+            handleCollisions();
+      }, 10 );
+
+
 
 io.on('connection', function(socket){
 
@@ -43,7 +52,7 @@ io.on('connection', function(socket){
                 gameObjects[i].xVel = msg.xVel;
                 gameObjects[i].yVel = msg.yVel;
 
-                handleCollisions();
+              //  handleCollisions();
                 io.emit("gameroom1", msg);
 
                 return;
@@ -66,7 +75,7 @@ io.on('connection', function(socket){
         x.moveable = msg.moveable;
         gameObjects.push(x);
         
-        handleCollisions();
+      //  handleCollisions();
         io.emit("gameroom1", msg);
     });
     socket.on('disconnect', function(){
