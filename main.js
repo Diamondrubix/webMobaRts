@@ -17,13 +17,13 @@ function setup(){
 	canvas.addEventListener("mousemove", onmove, false);
 	canvas.addEventListener("mousewheel", wheelMove, false);
 
-	guy = new Drawable(10,10,30,30,"red");
+	guy = new Player(10,10);
 	guy.keys = true;
 	gameObjects.push(guy);
 
 
 	net.receive(function(msg) {
-
+		console.log(msg);
         if (msg.id != guy.id) {
             for (var i = 0; i < gameObjects.length; i++) {
                 var obj = gameObjects[i];
@@ -145,10 +145,13 @@ function onClick(e) {
 		oldMouseX = chords.x;
 		oldMouseY = chords.y;
 	}else if(e.button == 2){
+		
 		f = new Drawable(chords.x, chords.y, 40, 40, "blue");
 		f.moveable = true;
+		net.send(f);
 		//net.send(f);
-		gameObjects.push(f);
+		//gameObjects.push(f);*/
+
 	}
 
 }
