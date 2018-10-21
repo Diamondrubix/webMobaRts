@@ -26,6 +26,7 @@ class Player extends Drawable{
 
 	  	this.oldX = x;
 	  	this.oldY = y;
+	  	this.moveable = false;
 	  	
 	}
 
