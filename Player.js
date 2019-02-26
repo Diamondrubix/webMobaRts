@@ -102,8 +102,6 @@ class Player extends Drawable{
 		this.handleKeys();
 		super.tick();
 
-
-
 	}
 
 

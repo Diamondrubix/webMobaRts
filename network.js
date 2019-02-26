@@ -1,7 +1,5 @@
 
 
-
-
 class network {
 
     constructor(gameroom) {
